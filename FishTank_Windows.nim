@@ -7,8 +7,9 @@
 
 import winim
 import os
-import ptr_math
-import strformat
+# import ptr_math
+# import strformat
+import obfuscation/mahimahi
 
 proc printMenu() =
   echo """
@@ -47,7 +48,7 @@ proc main() =
     let filePath = args[0]
     let obfuscation = args[1]
     case obfuscation:
-    of "salmon":
-      os.execShellCmd(".\HellShell.exe {filepath} uuid")
-
+    of "mahimahi":
+      let uuids = binToUuids(filePath)
+      echo uuids, uuids.len
 main()
