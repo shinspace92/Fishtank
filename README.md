@@ -1,5 +1,6 @@
 # Fishtank
 Automates Red Team Payload
+Credits to @byt3bl33d3r for providing base templates of code snippets in his OffensiveNim repo
 
 # Setup
 Install required `nim` libraries
