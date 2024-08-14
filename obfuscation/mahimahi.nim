@@ -6,24 +6,27 @@
 #    
 
 import std/[streams, strutils, sequtils]
+import winim
 
 proc reverseBytes(buffer: openArray[uint8], start, length: int): seq[uint8] =
   result = newSeq[uint8](length)
   for i in 0..<length:
     result[i] = buffer[start + length - 1 - i]
 
-proc binToUuids*(filename: string): seq[string] =
+proc binToUuids*(filename: string): tuple[arr: cstringArray, len: int] =
   let fs = newFileStream(filename, fmRead)
   if fs == nil:
     raise newException(IOError, "Unable to open file: " & filename)
   defer: fs.close()
+  
   var buffer: array[16, uint8]
   var uuids: seq[string] = @[]
+  
   while not fs.atEnd():
     var bytesRead = fs.readData(addr(buffer[0]), 16)
     if bytesRead > 0:
       if bytesRead < 16:
-        # If we read less than 16 bytes, pad the rest with zeros
+        # If we read less than 16 bytes, pad the rest with 0x90
         for i in bytesRead..<16:
           buffer[i] = 0x90
 
@@ -46,7 +49,10 @@ proc binToUuids*(filename: string): seq[string] =
       formattedUuid.insert("-", 18)
       formattedUuid.insert("-", 23)
       uuids.add(formattedUuid)
-  return uuids
+
+  # Convert seq[string] to cstringArray
+  result.arr = allocCstringArray(uuids)
+  result.len = uuids.len
 
 when isMainModule:
   echo "This is a library file and should be imported, not run directly."
