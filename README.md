@@ -22,4 +22,13 @@ mkdir shellcodes outputs
 		 - [ ] Shellcode obfuscation methods
 		 - [ ] 
 	 - [ ] Obfuscate shellcode
-	 - [ ] 
+	 		- [x] uuid 
+			- [ ] ipv4
+			- [ ] ipv6
+			- [ ] mac address
+	 - [ ] Support service binary creation
+	 - [ ]  
+
+# Idea
+  - [ ] Use GitLab pipelines for automation, instead of using Nim wrapper
+	- [ ] 
