@@ -27,3 +27,6 @@ mkdir shellcodes outputs
 FishTank.exe shellcodes/calc.bin
 ```
 3. An `exe` will be generated in the `outputs` directory
+
+> [!Danger] Ethical Usage
+> This tool is meant to be used for educational purposes only.
